@@ -1,7 +1,9 @@
 import os
 
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")  # Bot token from environment variable
-TG_OWNER_ID = os.environ.get("TG_OWNER_ID", "")    # Owner ID from environment variable
-TG_CHANNEL_1 = os.environ.get("TG_CHANNEL_1", "")
-TG_CHANNEL_2 = os.environ.get("TG_CHANNEL_2", "")
-TG_CHANNEL_3 = os.environ.get("TG_CHANNEL_3", "")
+API_ID = os.environ.get("API_ID", "")
+API_HASH = os.environ.get("API_HASH", "")
+OWNER = os.environ.get("OWNER", "")
+BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
+CHANNEL_ID_1 = int(os.environ.get("CHANNEL_ID_1", "-1002191732189"))
+CHANNEL_ID_2 = int(os.environ.get("CHANNEL_ID_2", "-1002191732190"))
+CHANNEL_ID_3 = int(os.environ.get("CHANNEL_ID_3", "-1002191732191"))
