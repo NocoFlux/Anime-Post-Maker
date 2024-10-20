@@ -2,8 +2,6 @@ from pyrogram import Client
 from datetime import datetime
 import logging
 
-pyrogram.utils.MIN_CHANNEL_ID = -1002279496397
-
 from config import API_HASH, APP_ID, LOGGER, BOT_TOKEN, CHANNEL_ID
 
 logging.basicConfig(level=logging.INFO)
