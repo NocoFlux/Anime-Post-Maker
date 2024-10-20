@@ -1,9 +1,8 @@
-from os.path import dirname, basename, isfile, join
-import glob
+from aiohttp import web
+from .route import routes
 
-modules = glob.glob(join(dirname(__file__), "*.py"))
-__all__ = [
-    basename(f)[:-3]
-    for f in modules
-    if isfile(f) and not f.endswith("__init__.py")
-]
+
+async def web_server():
+    web_app = web.Application(client_max_size=30000000)
+    web_app.add_routes(routes)
+    return web_app
