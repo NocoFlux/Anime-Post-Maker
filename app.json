@@ -1,0 +1,14 @@
+# app.json
+{
+    "name": "Anime News Bot",
+    "description": "Telegram bot for posting anime news",
+    "keywords": ["telegram", "bot", "anime"],
+    "env": {
+        "BOT_TOKEN": {"description": "Telegram Bot Token from @BotFather"},
+        "APP_ID": {"description": "API ID from my.telegram.org"},
+        "API_HASH": {"description": "API Hash from my.telegram.org"},
+        "OWNER_ID": {"description": "Your Telegram User ID"},
+        "CHANNEL_ID": {"description": "Channel ID where bot will post"}
+    },
+    "buildpacks": [{"url": "heroku/python"}]
+}
