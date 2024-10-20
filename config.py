@@ -1,11 +1,11 @@
 # config.py
 import os
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "") # Get from @BotFather
-APP_ID = int(os.environ.get("APP_ID", "")) # Get from my.telegram.org
-API_HASH = os.environ.get("API_HASH", "") # Get from my.telegram.org
-OWNER_ID = int(os.environ.get("OWNER_ID", "")) # Your Telegram ID, get from @userinfobot
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "")) # Channel ID (with -100 prefix)
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "7848802187:AAHB57UFUFv0fRR_htevJhsmDT5hf-rfknE") # Get from @BotFather
+APP_ID = int(os.environ.get("APP_ID", "26254064")) # Get from my.telegram.org
+API_HASH = os.environ.get("API_HASH", "72541d6610ae7730e6135af9423b319c") # Get from my.telegram.org
+OWNER_ID = int(os.environ.get("OWNER_ID", "5296584067")) # Your Telegram ID, get from @userinfobot
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002176591513")) # Channel ID (with -100 prefix)
 
 # AniList API for anime data
 ANILIST_API = "https://graphql.anilist.co"
