@@ -15,7 +15,7 @@ async def start_news_cmd(client, message):
         return
     
     news_task = asyncio.create_task(news_monitor(client))
-    await message.reply("ðŸŸ¢ Started anime news service")
+    await message.reply("🟢 Started anime news service")
 
 @Client.on_message(filters.command("stopnews") & filters.user(OWNER_ID))
 @check_owner
@@ -24,7 +24,7 @@ async def stop_news_cmd(client, message):
     if news_task:
         news_task.cancel()
         news_task = None
-        await message.reply("ðŸ”´ Stopped anime news service")
+        await message.reply("🔴 Stopped anime news service")
     else:
         await message.reply("News service not running!")
 
@@ -32,20 +32,33 @@ async def news_monitor(client):
     last_id = None
     while True:
         try:
-            # Replace with your preferred anime news API
             async with aiohttp.ClientSession() as session:
-                async with session.get("YOUR_ANIME_API_ENDPOINT") as response:
+                # Proper POST request to AniList GraphQL API
+                async with session.post(
+                    ANILIST_API,
+                    json={'query': ANIME_QUERY}
+                ) as response:
                     if response.status == 200:
-                        news = await response.json()
-                        if news['id'] != last_id:
-                            last_id = news['id']
-                            caption = f"ðŸŒŸ {news['title']}\n\n{news['description']}"
+                        data = await response.json()
+                        anime = data['data']['Page']['media'][0]
+                        
+                        if anime['id'] != last_id:
+                            last_id = anime['id']
+                            title = anime['title']['english'] or anime['title']['romaji']
+                            desc = anime['description']
+                            if desc and len(desc) > 800:
+                                desc = desc[:800] + "..."
+                            
+                            caption = f"🌟 {title}\n\n{desc}"
+                            
                             await client.send_photo(
-                                CHANNEL_ID,
-                                news['image'],
+                                chat_id=CHANNEL_ID,
+                                photo=anime['coverImage']['extraLarge'],
                                 caption=caption
                             )
-            await asyncio.sleep(300)
+                            LOGGER.info(f"Posted new anime: {title}")
+            
+            await asyncio.sleep(300)  # Check every 5 minutes
         except Exception as e:
             LOGGER.error(f"Error in news monitor: {e}")
             await asyncio.sleep(60)
