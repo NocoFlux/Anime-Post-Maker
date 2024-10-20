@@ -4,6 +4,9 @@ import logging
 
 from config import API_HASH, APP_ID, LOGGER, BOT_TOKEN, CHANNEL_ID
 
+import pyrogram.utils
+pyrogram.utils.MIN_CHANNEL_ID = -1002176591513
+
 logging.basicConfig(level=logging.INFO)
 LOGGER = logging.getLogger(__name__)
 
