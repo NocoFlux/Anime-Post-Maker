@@ -1,41 +1,36 @@
 from pyrogram import Client
-from datetime import datetime
-import logging
-
-from config import API_HASH, APP_ID, LOGGER, BOT_TOKEN, CHANNEL_ID
-
-import pyrogram.utils
-pyrogram.utils.MIN_CHANNEL_ID = -1002176591513
-
-logging.basicConfig(level=logging.INFO)
-LOGGER = logging.getLogger(__name__)
+from aiohttp import web
+import asyncio
+from config import BOT_TOKEN, APP_ID, API_HASH, LOGGER
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
-            name="Bot",
-            api_hash=API_HASH,
+            name="AnimeNewsBot",
             api_id=APP_ID,
-            plugins={
-                "root": "plugins"
-            },
+            api_hash=API_HASH,
+            plugins=dict(root="plugins"),
+            workers=200,
             bot_token=BOT_TOKEN
         )
-        self.LOGGER = LOGGER
+        self.web_app = web.Application()
+        self.web_app.router.add_get("/", self.health_check)
 
-    async def start(self):
-        await super().start()
-        usr_bot_me = await self.get_me()
-        self.uptime = datetime.now()
-        try:
-            await self.send_message(CHANNEL_ID, "⚡️ Bot is alive")
-            self.LOGGER.info(f"✅ Bot has access to channel {CHANNEL_ID}")
-        except Exception as e:
-            self.LOGGER.error(f"❌ Bot lacks channel access: {str(e)}")
-        
-        self.LOGGER.info(f"Bot Started as {usr_bot_me.first_name}")
+    async def health_check(self, request):
+        return web.Response(text="Bot is running!")
 
-    async def stop(self, *args):
-        await super().stop()
-        self.LOGGER.info("Bot Stopped!")
-      
+    async def start_web_server(self):
+        runner = web.AppRunner(self.web_app)
+        await runner.setup()
+        site = web.TCPSite(runner, '0.0.0.0', 8000)
+        await site.start()
+        LOGGER.info("Web server started on port 8000")
+
+    def run(self):
+        async def start_bot():
+            await self.start()
+            LOGGER.info("✅ Bot Started Successfully!")
+            await self.start_web_server()
+            await self.idle()
+
+        asyncio.get_event_loop().run_until_complete(start_bot())
