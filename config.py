@@ -1,12 +1,29 @@
-#https://t.me/abidabdullah199
-
+# config.py
 import os
 
-#Bot Variables
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "bot token telegram")
-APP_ID = int(os.environ.get("APP_ID", "telegram app id"))
-API_HASH = os.environ.get("API_HASH", "telegram API hash")
-OWNER_ID = int(os.environ.get("OWNER_ID", "telegram owner Id 5296584067"))
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "my telegram channel id"))
-API_URL =
-os.environ.get("API_URL", "API url for getting anime news")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "") # Get from @BotFather
+APP_ID = int(os.environ.get("APP_ID", "")) # Get from my.telegram.org
+API_HASH = os.environ.get("API_HASH", "") # Get from my.telegram.org
+OWNER_ID = int(os.environ.get("OWNER_ID", "")) # Your Telegram ID, get from @userinfobot
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "")) # Channel ID (with -100 prefix)
+
+# AniList API for anime data
+ANILIST_API = "https://graphql.anilist.co"
+
+# Example GraphQL query for recent anime
+ANIME_QUERY = """
+query {
+  Page(page: 1, perPage: 10) {
+    media(type: ANIME, sort: TRENDING_DESC) {
+      id
+      title {
+        romaji
+      }
+      description
+      coverImage {
+        large
+      }
+    }
+  }
+}
+"""
