@@ -1,5 +1,7 @@
 # config.py
 import os
+import logging
+from logging.handlers
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "7848802187:AAHB57UFUFv0fRR_htevJhsmDT5hf-rfknE") # Get from @BotFather
 APP_ID = int(os.environ.get("APP_ID", "26254064")) # Get from my.telegram.org
